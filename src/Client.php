@@ -33,8 +33,6 @@ class Client {
         $this->port = $port;
         $this->username = $username;
         $this->password = $password;
-
-        return $this;
     }
 
     /**

@@ -21,7 +21,6 @@ class Parameter {
         $this->name = $name;
         $this->value = $value;
         $this->attributes = $attributes;
-        return $this;
     }
 
     /**
@@ -86,7 +85,7 @@ class Parameter {
             $str .= "$key=\"$val\" ";
         }
         $str = rtrim($str) . ">" . $this->value . "</{$this->name}>";
-        
+
         return $str;
     }
 }
