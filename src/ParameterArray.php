@@ -17,7 +17,9 @@ class ParameterArray extends Parameter {
      * @return $this
      */
     public function add(Parameter $param) {
-        $this->parameters[] = $param;
+        if (!is_array($this->value))
+            $this->value = [];
+        $this->value[] = $param;
         return $this;
     }
 
