@@ -75,7 +75,7 @@ class Request {
         if ($object != 'addusr' && $object != 'wombat') {
             throw new \InvalidArgumentException("\$object must be addusr or wombat.");
         }
-        $this->object = $oject;
+        $this->object = $object;
         return $this;
     }
 
