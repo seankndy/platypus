@@ -1,22 +1,31 @@
 <?php
 namespace SeanKndy\Platypus;
 
+/**
+ * Like Parameter, but $this->value becomes an array of Parameters
+ */
 class ParameterArray extends Parameter {
     public function __construct(array $parameters = []) {
-        $this->name = 'item_array';
-        $this->value = $parameters;
-        return $this;
+        parent::__construct('item_array', $parameters, []);
     }
-    
+
+    /**
+     * Add Parameter to this array
+     *
+     * @param Parameter $param Parameter to add
+     *
+     * @return $this
+     */
     public function add(Parameter $param) {
         $this->parameters[] = $param;
         return $this;
     }
-    
-    public function setValue($value) {
-        throw new \RuntimeException("Cannot call setValue() from ParameterArray, only Parameter");
-    }
-    
+
+    /**
+     * Return XML representation (string) of this paraemter array
+     *
+     * @return string
+     */
     public function __toString() {
         $str = "<{$this->name} type=\"array\">";
         foreach ($this->value as $param) {
