@@ -84,8 +84,11 @@ class Client {
             throw new \RuntimeException("Failed to write entire payload to socket!");
         }
         stream_set_timeout($this->socket, 240);
-        if (!($contentLengthStr = trim(fgets($this->socket))) || !stristr($contentLengthStr, 'content-length:')) {
+        if (!($contentLengthStr = fgets($this->socket))) {
             throw new \RuntimeException("Failed to read from socket.");
+        }
+        if (!stristr($contentLengthStr = trim($contentLengthStr), 'content-length:')) {
+            throw new \RuntimeException("Invalid first-line response from Platypus API.");
         }
         $contentLength = intval(trim(substr($contentLengthStr, strpos($contentLengthStr, ':')+1)));
 
