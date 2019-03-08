@@ -1,4 +1,18 @@
 {
+    "name": "seankndy/phpcsv",
+    "description": "PHP client for the Platypus ISP Billing System API",
+    "authors": [
+        {
+            "name": "Sean Kennedy",
+            "email": "sean@kndy.net"
+        }
+    ],
+    "keywords": [
+        "playtpus",
+        "isp billing",
+        "wow",
+        "plat"
+    ],
     "require": {
     },
     "autoload": {
