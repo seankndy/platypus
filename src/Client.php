@@ -36,7 +36,7 @@ class Client {
 
         return $this;
     }
-    
+
     /**
      * Helper method to generate a Request object and graciously pass in the user/pass for the caller.
      *

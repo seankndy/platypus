@@ -21,13 +21,18 @@ class Response implements \Iterator {
      * @var array
      */
     protected $attributes = [];
-    
+
     /**
      * @var int
      */
     private $position = 0;
 
-    public function __construct(string $action, string $responseText, 
+    /**
+     *
+     *
+     * @return void
+     */
+    public function __construct(string $action, string $responseText,
         string $responseCode, bool $isSuccess, array $attributes = []) {
         $this->action = $action;
         $this->responseText = $responseText;
@@ -36,31 +41,56 @@ class Response implements \Iterator {
         $this->attributes = $attributes;
     }
 
+    /**
+     * Get response text, may be blank
+     *
+     * @return string
+     */
     public function getResponseText() {
         return $this->responseText;
     }
 
+    /**
+     * Get response code
+     *
+     * @return string
+     */
     public function getResponseCode() {
         return $this->responseCode;
     }
 
+    /**
+     * Is success flag set?
+     *
+     * @return bool
+     */
     public function isSuccess() {
         return $this->isSuccess;
     }
 
+    /**
+     * Get action
+     *
+     * @return array
+     */
     public function getAction() {
         return $this->action;
     }
-    
+
+    /**
+     * Get all attributes as array
+     *
+     * @return array
+     */
     public function getAttributes() {
         return $this->attributes;
     }
-        
+
     public function setAction(string $action) {
         $this->action = $action;
         return $this;
     }
-    
+
     /**
      * Parse XML into new Response object
      *
@@ -89,7 +119,7 @@ class Response implements \Iterator {
     }
 
     /**
-     * \Iterator implementation
+     * \Iterator implementation, for iterating over $this->attributes
      */
     public function rewind() {
         $this->position = 0;

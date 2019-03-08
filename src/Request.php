@@ -28,28 +28,65 @@ class Request {
      * @var array
      */
     protected $properties = [];
-    
+
+    /**
+     * Constructor
+     *
+     * @param string $username
+     * @param string $password
+     * @param string $action
+     *
+     * @return void
+     */
     public function __construct(string $username, string $password, string $action) {
         $this->username = $username;
         $this->password = $password;
         $this->action = $action;
     }
 
+    /**
+     * Set login type
+     *
+     * @param string $type The type to set to
+     *
+     * @return $this
+     */
     public function setLoginType(string $type) {
         $this->loginType = $type;
         return $this;
     }
 
+    /**
+     * Set username
+     *
+     * @param string $username Username
+     *
+     * @return $this
+     */
     public function setUsername(string $username) {
         $this->username = $username;
         return $this;
     }
 
+    /**
+     * Set password
+     *
+     * @param string $password Password
+     *
+     * @return $this
+     */
     public function setPassword(string $password) {
         $this->password = $password;
         return $this;
     }
 
+    /**
+     * Set action
+     *
+     * @param string $action Action
+     *
+     * @return $this
+     */
     public function setAction(string $action) {
         $this->action = $action;
         return $this;
@@ -72,7 +109,7 @@ class Request {
         $this->parameters[] = $param;
         return $this;
     }
-    
+
     /**
      * Add property to request
      *
@@ -91,6 +128,11 @@ class Request {
         return $this;
     }
 
+    /**
+     * Output this Request as an XML string
+     *
+     * @return $this
+     */
     public function __toString() {
         $str  = '<?xml version="1.0"?>' . "\n";
         $str .= "<PLATXML>\n";
