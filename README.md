@@ -13,7 +13,6 @@ try {
         'Some Staff', 'password'
     );
     $req = $client->createRequest('AddToPlat') // AddToPlat is a Plat API action
-            ->addParameter(new Parameter('datatype', 'XML'))
             ->addProperty(new Parameter('billingmeth', 'PAPER'))
             ->addProperty(new Parameter('name2', 'Test User'))
             ->addProperty(new Parameter('email', 'testing@test.com'))
@@ -31,6 +30,20 @@ try {
     
     if ($response->isSuccess()) {
         // $response->getAttributes() contains returned attributes
+        $attrib = $response->getAttributes()[0];
+    
+        $req = $client->createRequest('ChangeStatus')
+            ->addProperty(new Parameter('custid', $attrib['custid']))
+            ->addParameter(new Parameter('NewStatus', 'Y'))
+            ->addParameter(new Parameter('nReasonID', ''))
+            ->addParameter(new Parameter('cnReasonNote', ''));
+
+        $response = $client->sendRequest($req);
+        if ($response->isSuccess()) {
+            // successfully set to active
+        } else {
+            // handle failure
+        }
     } else {
         // handle failure
     }

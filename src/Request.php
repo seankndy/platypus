@@ -21,13 +21,13 @@ class Request {
      * Parameter or ParameterArray objects
      * @var array
      */
-    protected $parameters;
+    protected $parameters = [];
 
     /**
      * Parameter objects
      * @var array
      */
-    protected $properties;
+    protected $properties = [];
     
     public function __construct(string $username, string $password, string $action) {
         $this->username = $username;
@@ -56,11 +56,23 @@ class Request {
     }
 
     public function addParameter(Parameter $param) {
+        foreach ($this->parameters as $k => $p) {
+            if ($param->getName() == $p->getName()) {
+                $this->parameters[$k] = $param;
+                return $this;
+            }
+        }
         $this->parameters[] = $param;
         return $this;
     }
     
     public function addProperty(Parameter $param) {
+        foreach ($this->properties as $k => $p) {
+            if ($param->getName() == $p->getName()) {
+                $this->properties[$k] = $param;
+                return $this;
+            }
+        }
         $this->properties[] = $param;
         return $this;
     }

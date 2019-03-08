@@ -33,6 +33,10 @@ class Parameter {
         $this->name = $name;
         return $this;
     }
+
+    public function getName() {
+        return $this->name;
+    }
     
     public function __toString() {
         $str = "<{$this->name} ";

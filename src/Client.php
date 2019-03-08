@@ -12,20 +12,19 @@ class Client {
      */
     protected $username, $password;
 
+    /**
+     * @var string
+     */
+    protected $host;
+
+    /**
+     * @var int
+     */
+    protected $port;
+
     public function __construct(string $host, int $port, string $username, string $password) {
-        $ctx = stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT,
-            ]
-        ]);
-
-        if (!($this->socket = stream_socket_client("ssl://$host:$port",
-                $errorNumber, $errorString, 15, STREAM_CLIENT_CONNECT, $ctx))) {
-            throw new \RuntimeException("Error creating client socket: ($errorNumber) $errorString");
-        }
-
+        $this->host = $host;
+        $this->port = $port;
         $this->username = $username;
         $this->password = $password;
 
@@ -33,11 +32,27 @@ class Client {
     }
     
     public function createRequest(string $action) {
-        $req = new Request($this->username, $this->password, $action);
+        $req = (new Request($this->username, $this->password, $action));
         return $req;
     }
 
+    protected function connect() {
+        $ctx = stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT,
+            ]
+        ]);
+        if (!($this->socket = stream_socket_client("ssl://{$this->host}:{$this->port}",
+                $errorNumber, $errorString, 15, STREAM_CLIENT_CONNECT, $ctx))) {
+            throw new \RuntimeException("Error creating client socket: ($errorNumber) $errorString");
+        }
+    }
+
     public function sendRequest(Request $request) {
+        $this->connect();
+
         $xml = (string)$request;
         $payload = "content-length:" . strlen($xml) . "\r\n\r\n$xml";
         if (fwrite($this->socket, $payload, strlen($payload)) != strlen($payload)) {
