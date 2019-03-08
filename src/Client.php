@@ -43,6 +43,7 @@ class Client {
      * @param string $action Action string of Request (must be supported by Plat API)
      *
      * @return Request
+     */
     public function createRequest(string $action) {
         $req = (new Request($this->username, $this->password, $action));
         return $req;
