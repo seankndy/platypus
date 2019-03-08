@@ -10,6 +10,11 @@ class Request {
     /**
      * @var string
      */
+    protected $object = 'addusr';
+
+    /**
+     * @var string
+     */
     protected $loginType = 'staff';
 
     /**
@@ -52,7 +57,25 @@ class Request {
      * @return $this
      */
     public function setLoginType(string $type) {
+        if ($type != 'staff' && $type != 'customer') {
+            throw new \InvalidArgumentException("\$type must be staff or customer.");
+        }
         $this->loginType = $type;
+        return $this;
+    }
+
+    /**
+     * Set object type to use for the request
+     *
+     * @param string $object Object name
+     *
+     * @return $this
+     */
+    public function setObject(string $object) {
+        if ($object != 'addusr' && $object != 'wombat') {
+            throw new \InvalidArgumentException("\$object must be addusr or wombat.");
+        }
+        $this->object = $oject;
         return $this;
     }
 
@@ -140,7 +163,7 @@ class Request {
         $str .= "  <body>\n";
         $str .= "    <data_block>\n";
         $str .= "      <protocol>Plat</protocol>\n";
-        $str .= "      <object>addusr</object>\n";
+        $str .= "      <object>{$this->object}</object>\n";
         $str .= "      <action>{$this->action}</action>\n";
         $str .= "      <username>{$this->username}</username>\n";
         $str .= "      <password>{$this->password}</password>\n";
