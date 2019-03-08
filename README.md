@@ -17,7 +17,6 @@ try {
             ->addProperty(new Parameter('billingmeth', 'PAPER'))
             ->addProperty(new Parameter('name2', 'Test User'))
             ->addProperty(new Parameter('email', 'testing@test.com'))
-            ->addProperty(new Parameter('active', 'Y'))
             ->addProperty(new Parameter('phone', '1112223333'))
             ->addProperty(new Parameter('fax', ''))
             ->addProperty(new Parameter('username', 'testing'))
@@ -29,7 +28,13 @@ try {
             ->addProperty(new Parameter('zip', '82718'));
     
     $response = $client->sendRequest($req); // \SeanKndy\Platypus\Response object
+    
+    if ($response->isSuccess()) {
+        // $response->getAttributes() contains returned attributes
+    } else {
+        // handle failure
+    }
 } catch (Exception $e) {
-    // deal with $e
+    // deal with critical exception
 }
 ```
