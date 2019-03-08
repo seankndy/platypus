@@ -22,6 +22,12 @@ class Client {
      */
     protected $port;
 
+    /**
+     * @param string $host Hostname/IP of plat API server
+     * @param string $port Port of plat API server
+     * @param string $username Username to use within createRequest()
+     * @param string $password Password to use within createRequest()
+     */
     public function __construct(string $host, int $port, string $username, string $password) {
         $this->host = $host;
         $this->port = $port;
@@ -31,11 +37,22 @@ class Client {
         return $this;
     }
     
+    /**
+     * Helper method to generate a Request object and graciously pass in the user/pass for the caller.
+     *
+     * @param string $action Action string of Request (must be supported by Plat API)
+     *
+     * @return Request
     public function createRequest(string $action) {
         $req = (new Request($this->username, $this->password, $action));
         return $req;
     }
 
+    /**
+     * Connect socket to plat API
+     *
+     * @return void
+     */
     protected function connect() {
         $ctx = stream_context_create([
             'ssl' => [
@@ -50,6 +67,13 @@ class Client {
         }
     }
 
+    /**
+     * Send request $request as XML to Plat API
+     *
+     * @param Request $request The request to send
+     *
+     * @return Response
+     */
     public function sendRequest(Request $request) {
         $this->connect();
 

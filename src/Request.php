@@ -55,6 +55,13 @@ class Request {
         return $this;
     }
 
+    /**
+     * Add parameter to request
+     *
+     * @param Parameter $param Parameter to add
+     *
+     * @return $this
+     */
     public function addParameter(Parameter $param) {
         foreach ($this->parameters as $k => $p) {
             if ($param->getName() == $p->getName()) {
@@ -66,6 +73,13 @@ class Request {
         return $this;
     }
     
+    /**
+     * Add property to request
+     *
+     * @param Parameter $param Property to add
+     *
+     * @return $this
+     */
     public function addProperty(Parameter $param) {
         foreach ($this->properties as $k => $p) {
             if ($param->getName() == $p->getName()) {

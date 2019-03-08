@@ -64,6 +64,8 @@ class Response implements \Iterator {
     /**
      * Parse XML into new Response object
      *
+     * @param string $xml XML to parse
+     *
      * @return Response
      */
     public static function fromXml(string $xml) {
