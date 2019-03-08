@@ -1,6 +1,7 @@
 # platypus
 Basic usage:
 ```
+<?php
 require 'vendor/autoload.php';
 
 use \SeanKndy\Platypus\Parameter;
@@ -26,5 +27,9 @@ try {
             ->addProperty(new Parameter('city', 'Gillette'))
             ->addProperty(new Parameter('state', 'WY'))
             ->addProperty(new Parameter('zip', '82718'));
-$response = $client->sendRequest($req); // \SeanKndy\Platypus\Response object
+    
+    $response = $client->sendRequest($req); // \SeanKndy\Platypus\Response object
+} catch (Exception $e) {
+    // deal with $e
+}
 ```
