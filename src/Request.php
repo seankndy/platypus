@@ -1,33 +1,29 @@
 <?php
 namespace SeanKndy\Platypus;
 
-class Request {
+class Request
+{
     /**
      * @var string
      */
     protected $action;
-
     /**
      * @var string
      */
     protected $object = 'addusr';
-
     /**
      * @var string
      */
     protected $loginType = 'staff';
-
     /**
      * @var string
      */
     protected $username, $password;
-
     /**
      * Parameter or ParameterArray objects
      * @var array
      */
     protected $parameters = [];
-
     /**
      * Parameter objects
      * @var array
@@ -40,10 +36,9 @@ class Request {
      * @param string $username
      * @param string $password
      * @param string $action
-     *
-     * @return void
      */
-    public function __construct(string $username, string $password, string $action) {
+    public function __construct(string $username, string $password, string $action)
+    {
         $this->username = $username;
         $this->password = $password;
         $this->action = $action;
@@ -56,7 +51,8 @@ class Request {
      *
      * @return $this
      */
-    public function setLoginType(string $type) {
+    public function setLoginType(string $type)
+    {
         if ($type != 'staff' && $type != 'customer') {
             throw new \InvalidArgumentException("\$type must be staff or customer.");
         }
@@ -71,7 +67,8 @@ class Request {
      *
      * @return $this
      */
-    public function setObject(string $object) {
+    public function setObject(string $object)
+    {
         if ($object != 'addusr' && $object != 'wombat') {
             throw new \InvalidArgumentException("\$object must be addusr or wombat.");
         }
@@ -86,7 +83,8 @@ class Request {
      *
      * @return $this
      */
-    public function setUsername(string $username) {
+    public function setUsername(string $username)
+    {
         $this->username = $username;
         return $this;
     }
@@ -98,7 +96,8 @@ class Request {
      *
      * @return $this
      */
-    public function setPassword(string $password) {
+    public function setPassword(string $password)
+    {
         $this->password = $password;
         return $this;
     }
@@ -110,7 +109,8 @@ class Request {
      *
      * @return $this
      */
-    public function setAction(string $action) {
+    public function setAction(string $action)
+    {
         $this->action = $action;
         return $this;
     }
@@ -122,7 +122,8 @@ class Request {
      *
      * @return $this
      */
-    public function addParameter(Parameter $param) {
+    public function addParameter(Parameter $param)
+    {
         foreach ($this->parameters as $k => $p) {
             if ($param->getName() == $p->getName()) {
                 $this->parameters[$k] = $param;
@@ -140,7 +141,8 @@ class Request {
      *
      * @return $this
      */
-    public function addProperty(Parameter $param) {
+    public function addProperty(Parameter $param)
+    {
         foreach ($this->properties as $k => $p) {
             if ($param->getName() == $p->getName()) {
                 $this->properties[$k] = $param;
@@ -156,7 +158,8 @@ class Request {
      *
      * @return $this
      */
-    public function __toString() {
+    public function __toString()
+    {
         $str  = '<?xml version="1.0"?>' . "\n";
         $str .= "<PLATXML>\n";
         $str .= "  <header></header>\n";

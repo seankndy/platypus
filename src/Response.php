@@ -1,27 +1,24 @@
 <?php
 namespace SeanKndy\Platypus;
 
-class Response implements \Iterator {
+class Response implements \Iterator
+{
     /**
      * @var string
      */
     protected $action;
-
     /**
      * @var string
      */
     protected $responseText, $responseCode;
-
     /**
      * @var boolean
      */
     protected $isSuccess;
-
     /**
      * @var array
      */
     protected $attributes = [];
-
     /**
      * @var int
      */
@@ -33,7 +30,8 @@ class Response implements \Iterator {
      * @return void
      */
     public function __construct(string $action, string $responseText,
-        string $responseCode, bool $isSuccess, array $attributes = []) {
+        string $responseCode, bool $isSuccess, array $attributes = [])
+    {
         $this->action = $action;
         $this->responseText = $responseText;
         $this->responseCode = $responseCode;
@@ -46,7 +44,8 @@ class Response implements \Iterator {
      *
      * @return string
      */
-    public function getResponseText() {
+    public function getResponseText()
+    {
         return $this->responseText;
     }
 
@@ -55,7 +54,8 @@ class Response implements \Iterator {
      *
      * @return string
      */
-    public function getResponseCode() {
+    public function getResponseCode()
+    {
         return $this->responseCode;
     }
 
@@ -64,7 +64,8 @@ class Response implements \Iterator {
      *
      * @return bool
      */
-    public function isSuccess() {
+    public function isSuccess()
+    {
         return $this->isSuccess;
     }
 
@@ -73,7 +74,8 @@ class Response implements \Iterator {
      *
      * @return array
      */
-    public function getAction() {
+    public function getAction()
+    {
         return $this->action;
     }
 
@@ -82,11 +84,13 @@ class Response implements \Iterator {
      *
      * @return array
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return $this->attributes;
     }
 
-    public function setAction(string $action) {
+    public function setAction(string $action)
+    {
         $this->action = $action;
         return $this;
     }
@@ -98,7 +102,8 @@ class Response implements \Iterator {
      *
      * @return Response
      */
-    public static function fromXml(string $xml) {
+    public static function fromXml(string $xml)
+    {
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($xml);
         if ($errors = libxml_get_errors()) {
@@ -111,33 +116,57 @@ class Response implements \Iterator {
         $attributes = [];
         if (property_exists($xml->body->data_block, 'attributes')) {
             foreach ($xml->body->data_block->attributes->data_block as $ele) {
-                $vars = get_object_vars($ele);
-                $attributes[] = $vars;
+                $attributes[] = self::xmlToArray($ele);
             }
         }
         return new self($action, $responseText, $responseCode, $isSuccess, $attributes);
     }
 
     /**
+     * Recursively convert SimpleXMLElement to key/val array
+     *
+     * @param \SimpleXMLElement $xmlObject
+     * @return array
+     */
+    private static function xmlToArray(\SimpleXMLElement $xmlObject)
+    {
+        $arr = [];
+        foreach ($xmlObject->children() as $r) {
+            $t = [];
+            if (\count($r->children()) == 0) {
+                $arr[$r->getName()] = \strval($r);
+            } else {
+                $arr[$r->getName()][] = self::xmlToArray($r);
+            }
+        }
+        return $arr;
+    }
+
+    /**
      * \Iterator implementation, for iterating over $this->attributes
      */
-    public function rewind() {
+    public function rewind()
+    {
         $this->position = 0;
     }
 
-    public function current() {
+    public function current()
+    {
         return $this->attributes[$this->position];
     }
 
-    public function key() {
+    public function key()
+    {
         return $this->position;
     }
 
-    public function next() {
+    public function next()
+    {
         ++$this->position;
     }
 
-    public function valid() {
+    public function valid()
+    {
         return isset($this->attributes[$this->position]);
     }
 }
