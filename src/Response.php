@@ -110,7 +110,7 @@ class Response implements \Iterator
             throw new \RuntimeException("Invalid XML.");
         }
         $action = (string)$xml->body->data_block->action;
-        $responseText = !is_object($xml->body->data_block->response_text) ? (string)$xml->body->data_block->response_text : '';
+        $responseText = (string)$xml->body->data_block->response_text;
         $responseCode = (string)$xml->body->data_block->response_code;
         $isSuccess = (string)$xml->body->data_block->is_success == '1' ? true : false;
         $attributes = [];
